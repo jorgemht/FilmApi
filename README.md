@@ -1,10 +1,15 @@
 # FilmApi
 
+[It's api is the same as there is in the demo repository. The difference of both repository are the following:](https://github.com/jorgemht/demo)
+
+- Create, delete and update operations can be done in this Api.
+- For the operation of this api you need a server and a database. It is recommended to use [Azure](https://azure.microsoft.com/en-us/services/app-service/web/) and [SQL Server](https://azure.microsoft.com/en-us/services/sql-database/)..
+
 ## Projects
 
 **Film Api**: [API with ASP.NET Core MVC](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-2.2&tabs=visual-studio)
 
-**FilmApi.Domain** The models of all the projects.
+**FilmApi.Domain** The models.
 
 # Setup
 
