@@ -7,12 +7,12 @@
         public int MovieDirectorId { get; set; }
 
         public int FilmId { get; set; }
-        public int CountryId { get; set; }
+        public int DirectorId { get; set; }
 
         [JsonIgnore]
         public Film Film { get; set; }
 
         [JsonIgnore]
-        public Country Country { get; set; }
+        public Director Director { get; set; }
     }
 }

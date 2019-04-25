@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace FilmApi.Migrations
+﻿namespace FilmApi.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,7 +48,34 @@ namespace FilmApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Family",
+                name: "Country",
+                columns: table => new
+                {
+                    CountryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Country", x => x.CountryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Director",
+                columns: table => new
+                {
+                    DirectorId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Director", x => x.DirectorId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Film",
                 columns: table => new
                 {
                     FilmId = table.Column<int>(nullable: false)
@@ -61,34 +88,7 @@ namespace FilmApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Family", x => x.FilmId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    DirectorId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.DirectorId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserType",
-                columns: table => new
-                {
-                    CountryId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserType", x => x.CountryId);
+                    table.PrimaryKey("PK_Film", x => x.FilmId);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,40 +198,7 @@ namespace FilmApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Interval",
-                columns: table => new
-                {
-                    MovieDirectorId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FilmId = table.Column<int>(nullable: false),
-                    CountryId = table.Column<int>(nullable: false),
-                    DirectorId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Interval", x => x.MovieDirectorId);
-                    table.ForeignKey(
-                        name: "FK_Interval_UserType_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "UserType",
-                        principalColumn: "CountryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Interval_User_DirectorId",
-                        column: x => x.DirectorId,
-                        principalTable: "User",
-                        principalColumn: "DirectorId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Interval_Family_FilmId",
-                        column: x => x.FilmId,
-                        principalTable: "Family",
-                        principalColumn: "FilmId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subscription",
+                name: "MovieCountry",
                 columns: table => new
                 {
                     MovieCountryId = table.Column<int>(nullable: false)
@@ -241,17 +208,43 @@ namespace FilmApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subscription", x => x.MovieCountryId);
+                    table.PrimaryKey("PK_MovieCountry", x => x.MovieCountryId);
                     table.ForeignKey(
-                        name: "FK_Subscription_UserType_CountryId",
+                        name: "FK_MovieCountry_Country_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "UserType",
+                        principalTable: "Country",
                         principalColumn: "CountryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Subscription_Family_FilmId",
+                        name: "FK_MovieCountry_Film_FilmId",
                         column: x => x.FilmId,
-                        principalTable: "Family",
+                        principalTable: "Film",
+                        principalColumn: "FilmId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieDirector",
+                columns: table => new
+                {
+                    MovieDirectorId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FilmId = table.Column<int>(nullable: false),
+                    DirectorId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieDirector", x => x.MovieDirectorId);
+                    table.ForeignKey(
+                        name: "FK_MovieDirector_Director_DirectorId",
+                        column: x => x.DirectorId,
+                        principalTable: "Director",
+                        principalColumn: "DirectorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieDirector_Film_FilmId",
+                        column: x => x.FilmId,
+                        principalTable: "Film",
                         principalColumn: "FilmId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -296,28 +289,23 @@ namespace FilmApi.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interval_CountryId",
-                table: "Interval",
+                name: "IX_MovieCountry_CountryId",
+                table: "MovieCountry",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interval_DirectorId",
-                table: "Interval",
-                column: "DirectorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Interval_FilmId",
-                table: "Interval",
+                name: "IX_MovieCountry_FilmId",
+                table: "MovieCountry",
                 column: "FilmId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscription_CountryId",
-                table: "Subscription",
-                column: "CountryId");
+                name: "IX_MovieDirector_DirectorId",
+                table: "MovieDirector",
+                column: "DirectorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscription_FilmId",
-                table: "Subscription",
+                name: "IX_MovieDirector_FilmId",
+                table: "MovieDirector",
                 column: "FilmId");
         }
 
@@ -339,10 +327,10 @@ namespace FilmApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Interval");
+                name: "MovieCountry");
 
             migrationBuilder.DropTable(
-                name: "Subscription");
+                name: "MovieDirector");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -351,13 +339,13 @@ namespace FilmApi.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Country");
 
             migrationBuilder.DropTable(
-                name: "UserType");
+                name: "Director");
 
             migrationBuilder.DropTable(
-                name: "Family");
+                name: "Film");
         }
     }
 }

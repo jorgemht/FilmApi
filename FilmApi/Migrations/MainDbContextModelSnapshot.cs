@@ -29,7 +29,7 @@ namespace FilmApi.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("UserType");
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("FilmApi.Domain.Director", b =>
@@ -44,7 +44,7 @@ namespace FilmApi.Migrations
 
                     b.HasKey("DirectorId");
 
-                    b.ToTable("User");
+                    b.ToTable("Director");
                 });
 
             modelBuilder.Entity("FilmApi.Domain.Film", b =>
@@ -65,7 +65,7 @@ namespace FilmApi.Migrations
 
                     b.HasKey("FilmId");
 
-                    b.ToTable("Family");
+                    b.ToTable("Film");
                 });
 
             modelBuilder.Entity("FilmApi.Domain.MovieCountry", b =>
@@ -84,7 +84,7 @@ namespace FilmApi.Migrations
 
                     b.HasIndex("FilmId");
 
-                    b.ToTable("Subscription");
+                    b.ToTable("MovieCountry");
                 });
 
             modelBuilder.Entity("FilmApi.Domain.MovieDirector", b =>
@@ -93,21 +93,17 @@ namespace FilmApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CountryId");
-
-                    b.Property<int?>("DirectorId");
+                    b.Property<int>("DirectorId");
 
                     b.Property<int>("FilmId");
 
                     b.HasKey("MovieDirectorId");
 
-                    b.HasIndex("CountryId");
-
                     b.HasIndex("DirectorId");
 
                     b.HasIndex("FilmId");
 
-                    b.ToTable("Interval");
+                    b.ToTable("MovieDirector");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -286,14 +282,10 @@ namespace FilmApi.Migrations
 
             modelBuilder.Entity("FilmApi.Domain.MovieDirector", b =>
                 {
-                    b.HasOne("FilmApi.Domain.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FilmApi.Domain.Director")
+                    b.HasOne("FilmApi.Domain.Director", "Director")
                         .WithMany("MovieDirectors")
-                        .HasForeignKey("DirectorId");
+                        .HasForeignKey("DirectorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FilmApi.Domain.Film", "Film")
                         .WithMany("MovieDirectors")
