@@ -3,7 +3,13 @@
 [It's api is the same as there is in the demo repository. The difference of both repository are the following:](https://github.com/jorgemht/demo)
 
 - Create, delete and update operations can be done in this Api.
-- For the operation of this api you need a server and a database. It is recommended to use [Azure](https://azure.microsoft.com/en-us/services/app-service/web/) and [SQL Server](https://azure.microsoft.com/en-us/services/sql-database/)..
+- For the operation of this api you need a server and a database. It is recommended to use [Azure](https://azure.microsoft.com/en-us/services/app-service/web/) and [SQL Server](https://azure.microsoft.com/en-us/services/sql-database/).
+
+# Database
+
+The following image shows the schema of the database, its tables, data and relationships:
+
+![Esquema BBDD](https://github.com/jorgemht/demo/blob/master/DateBase.png)
 
 ## Projects
 
