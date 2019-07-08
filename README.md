@@ -36,7 +36,7 @@ The following image shows the schema of the database, its tables, data and relat
 **3. Apply the migration to the database to create the schema.**
 
 ```
-Update-Database
+Update-Database 
 ```
 
 # Requirements
